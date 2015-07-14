@@ -1,0 +1,129 @@
+doctype html
+html
+    head
+        title Tie-Fighter
+    body
+        #nickWrap
+            p Enter a Username:
+            p#nickError
+            form#setNick
+                input#nickname(size='35')
+                input(type='submit')
+        
+        #contentWrap
+            #chatWrap
+                iframe(src='https://www.google.com/webhp?hl=en')
+            #users
+    
+        link(rel='stylesheet', type='text/css', href='/stylesheets/presenterViewstyle.css')
+        script(src='/socket.io/socket.io.js')
+        script(src='http://code.jquery.com/jquery-latest.min.js')
+        script.
+            jQuery(function($){
+                
+                var state;
+                var socket = io.connect();
+                var iframe = $('#iframe');
+                var $nickForm = $('setNick');
+                var $nickError = $('#nickError');
+                var $nickBox = $('#nickname');
+                var $users = $('#users');
+                var $messageForm = $('#send-message');
+                var $messageBox = $('#message');
+
+                $nickForm.submit(function(e){
+                    e.preventDefault();
+                    socket.emit('new user', $nickBox.val(), function(data){
+                        if (data){
+                            $('#nickWrap').hide();
+                            $('#contentWrap').show();
+                        } else{
+                            $nickError.html("That username is already taken! Try again.");
+                        }
+                    });
+                    $nickBox.val('');
+                });
+                
+                socket.on('usernames', function(data){
+                    var html = ' ';
+                    for(i=0; i < data.length; i++){
+                        html += data[i] + '<br/>';
+                    }
+                    $users.html(html);
+                });
+
+                $messageForm.submit(function(e){
+                    e.preventDefault();
+                    socket.emit('send message', $messageBox.val());
+                    $messageBox.val(''); 
+                });
+
+                socket.on('new message', function(data){
+                    $chat.append('<b>' + data.nick + ': </b>' + data.msg + '<br/>');
+                });
+
+                
+
+
+                /**
+                var obj = $.parseJSON( $.get("/api/v1/current_state" );
+                if (obj.state === 'Popeyes'){
+                    console.log("Popeyes");
+                }
+                if state = 'Popeyes'{
+
+                }
+                
+
+                $.get("/api/v1/current_state", function(){ //connecting to the database - getting information from it. 
+                    
+
+
+                    var list = [];
+                    pg.connect(connectionString, function(err, client, done) {
+                        var query = client.query("SELECT * FROM link_base ORDER BY id ASC;");
+                        query.on('row', function(row) {
+                            results.push(row);
+                        });
+                        query.on('end', function() {
+                            client.end();
+                        });
+                        if(err) {
+                            console.log(err);
+                        }
+                    });
+                    iframe.attr("src", list[0]); //check these commands, yo
+                });
+
+                socket.on('buttonPush', function(){ //This listener is triggered, by default a change of state
+                    var list = [];
+                    pg.connect(connectionString, function(err, client, done) {
+                        var query = client.query("SELECT * FROM link_base ORDER BY id ASC;");
+                        query.on('row', function(row) {
+                            results.push(row);
+                        });
+                        query.on('end', function() {
+                            client.end();
+                        });
+                        if(err) {
+                            console.log(err);
+                        }
+                    });
+                    iframe.attr("src", list[0]); //check these commands, yo
+                });
+
+                /**socket.on('Links', function(links){
+                    if (Nick == 'CPU1'){
+                        window.location.replace(links[0]);
+                    }
+                    else if (Nick == 'CPU2'){
+                        window.location.replace(links[1]);
+                    }
+                    else if (Nick == 'CPU3'){
+                        window.location.replace(links[2]);
+                    }
+                    else if (Nick == 'CPU4'){               //Will actually still need iFrame, names in DB
+                        window.location.replace(links[3]);
+                    } 
+                */
+                });

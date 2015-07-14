@@ -1,0 +1,19 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #ADD8E6;
+}
+
+div {
+    height:100px;
+    width:100px;
+    display: inline-block;
+}
+
+#contentWrap{
+	display:none;
+}
+#chatWrap{
+	float: left;
+	border: 1px #000 solid;
+}

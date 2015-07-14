@@ -1,0 +1,68 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #ADD8E6;
+}
+
+div {
+    height:100px;
+    width:100px;
+    display: inline-block;
+}
+
+
+.PopeyesButton{
+    background:url(/images/PopeyesLogo.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    padding: 50px;
+    width:250px;
+    height:250px;
+    border-radius: 300px;
+}
+
+.WellmarkButton{
+    background:url(/images/WellmarkLogo.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    padding: 50px;
+    width:250px;
+    height:250px;
+    border-radius: 300px;
+}
+
+.JohnsonvilleButton{
+    background:url(/images/JohnsonvilleLogo.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    padding: 50px;
+    width:250px;
+    height:250px;
+    border-radius: 300px;
+}
+
+.GeneralMillsButton{
+    background:url(/images/GeneralMillsLogo.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    padding: 50px;
+    width:250px;
+    height:250px;
+    border-radius: 300px;
+}
+
+.KeybankButton{
+    background:url(/images/KeybankLogo.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    padding: 50px;
+    width:250px;
+    height:250px;
+    border-radius: 300px;
+}
+#chat{
+    height:500px;
+}
+#contentWrap{
+    display:none;
+}

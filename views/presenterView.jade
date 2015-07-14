@@ -1,0 +1,68 @@
+doctype html
+html(lang='en')
+  head
+    title Chat
+    style.
+      #chat{
+        height:0px;
+      }
+      #contentWrap{
+        display:none;
+      }
+      #chatWrap{
+        float: left;
+        border: 1px #000 solid;
+      }
+  body
+    #nickWrap
+      p Enter a Username:
+      p#nickError
+      form#setNick
+        input#nickname(size='35')
+        input(type='submit')
+    
+    #contentWrap
+      #chatWrap
+        #chat
+        iframe(width='1000', height='600', src='http://www.fastcompany.com')
+      #users
+    
+    script(src='http://code.jquery.com/jquery-latest.min.js')
+    script(src='/socket.io/socket.io.js')
+    script.
+      jQuery(function($){
+        
+        var socket = io.connect();
+        var $nickForm = $('#setNick');
+        var $nickError = $('#nickError');
+        var $nickBox = $('#nickname');
+        var $users = $('#users');
+        var $messageForm = $('#send-message');
+        var $messageBox = $('#message');
+        var $chat = $('#chat');
+
+        $nickForm.submit(function(e){
+            e.preventDefault();
+            socket.emit('new user', $nickBox.val(), function(data){
+              if (data){
+                $('#nickWrap').hide();
+                $('#contentWrap').show();
+              } else{
+                $nickError.html("That username is already taken! Try again.");
+              }
+            });
+            $nickBox.val('');
+        });
+
+      socket.on('usernames', function(data){
+        var html = ' ';
+        for(i=0; i < data.length; i++){
+            html += data[i] + '<br/>';
+        }
+        $users.html(html);
+      });
+
+      $.get("/api/v1/current_state", function (data){
+            console.log(data.state);
+        }, "json");
+      });

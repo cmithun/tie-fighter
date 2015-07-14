@@ -1,0 +1,109 @@
+doctype html
+html
+	head
+	body
+		.buttonPush
+			input.PopeyesButton(type='submit', value='')
+			// input.WellmarkButton(type='submit', value='')
+			// input.GeneralMillsButton(type='submit', value='')
+			// input.KeybankButton(type='submit', value='')
+			// input.JohnsonvilleButton(type='submit', value='')
+
+		link(rel='stylesheet', type='text/css', href='/stylesheets/indexStyle.css')
+		script(src='/socket.io/socket.io.js')
+		script(src='http://code.jquery.com/jquery-latest.min.js')
+		script.
+			$(document).ready(function() {
+				$('#PopeyesButton').mouseenter(function(){
+					$('#PopeyesButton').fadeTo('fast',1);
+				});
+				$('#PopeyesButton').mouseleave(function(){
+					$('#PopeyesButton').fadeTo('fast',.7);
+				});
+
+				$('#WellmarkButton').mouseenter(function(){
+					$('#WellmarkButton').fadeTo('fast',1);
+				});
+				$('#WellmarkButton').mouseleave(function(){
+					$('#WellmarkButton').fadeTo('fast',.7);
+				});
+				$('#GeneralMillsButton').mouseenter(function(){
+					$('#GeneralMillsButton').fadeTo('fast',1);
+				});
+				$('#GeneralMillsButton').mouseleave(function(){
+					$('#GeneralMillsButton').fadeTo('fast',.5);
+				});
+				$('#KeybankButton').mouseenter(function(){
+					$('#KeybankButton').fadeTo('fast',1);
+				});
+				$('#KeybankButton').mouseleave(function(){
+					$('#KeybankButton').fadeTo('fast',.5);
+				});
+				$('#JohnsonvilleButton').mouseenter(function(){
+					$('#JohnsonvilleButton').fadeTo('fast',1);
+				});
+				$('#JohnsonvilleButton').mouseleave(function(){
+					$('#JohnsonvilleButton').fadeTo('fast',.5); //(".class")
+				});
+			});
+
+		script.
+			jQuery(function($){
+
+				var socket = io.connect();
+				var $buttonPush = $('.buttonPush');
+				var $PopeyesButton = $('#PopeyesButton'); //Figure out classes and identifiers!
+				var $WellmarkButton = $('#WellmarkButton');
+				var $KeybankButton = $('#KeybankButton');
+				var $JohnsonvilleButton = $('#KeybankButton');
+				var $GeneralMillsButton = $('#GeneralMillsButton'); //Define all of these
+
+				$buttonPush.submit(function(e){
+					e.preventDefault();
+					socket.emit('buttonPush', function(){
+						if $PopeyesButton.click(){
+							stateupdate("Popeyes");
+						}
+						else if $WellmarkButton.click(){
+							stateupdate("Wellmark");;
+						}
+						else if $KeybankButton.click(){
+							stateupdate("Keybank");
+						}
+						else if $Johnsonville.click(){
+							stateupdate("Johnsonville");;
+						}
+						else if $GeneralMillsButton.click(){
+							stateupdate("GenerallMills");
+						}
+				});
+
+				//Come back and test!
+				function stateupdate(state) {
+
+					var data = {text: req.body.text, complete: req.body.complete};
+
+					// Get a Postgres client from the connection pool
+					pg.connect(connectionString, function(err, client, done) {
+
+						// SQL Query > Update Data //Figure out how to put our variable state into our database entry state
+						client.query("UPDATE current_state SET state = (" + state + ") WHERE id=($1)");
+
+						// SQL Query > Select Data
+						var query = client.query("SELECT * FROM link_base ORDER BY id ASC");
+
+						// After all data is returned, close connection and DO NOT return results
+						query.on('end', function() {
+							client.end();
+						});
+
+						// Handle Errors
+						if(err) {
+							console.log(err);
+						}
+
+					});
+				});
+			});
+
+			
