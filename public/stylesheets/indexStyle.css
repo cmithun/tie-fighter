@@ -1,25 +1,12 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #ADD8E6;
+  background-image: url('http://i.imgur.com/zH7Wu8n.jpg');
+  background-position: center;
 }
 
 div {
     height:230px;
     width:100px;
     display: inline-block;
-}
-
-.buttonPush {
-    width: 1250px;
-    background: #ADD8E6;
-    overflow-y: auto;
-}
-
-.buttonPush > input {
-    width: 200px;
-    height: 200px;
-    float: left;
-    background: white;   
-    margin: 15px;
 }

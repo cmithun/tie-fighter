@@ -54,7 +54,6 @@ html(lang='en')
               $('#siteloader').html(html);
           });
         }
-
         function compdist(data, formvalue){
           if (formvalue === "CPU1"){
             linkadapter(data.link1);
@@ -69,44 +68,48 @@ html(lang='en')
             linkadapter(data.link4);
           }
         }
-
-        $nickForm.submit(function(e){
-            e.preventDefault();
-            var formvalue = $nickBox.val();
-            $.get("/api/v1/current_state", function (data){
-              if (data.brandname === "Popeyes"){
-                console.log("Made it to the get request to snag info from DB!");
-                compdist(data, formvalue);
-              }
-              else if (data.brandname === 'Wellmark'){
-                compdist(data, formvalue);
-              }
-              else if (data.brandname === 'GeneralMills'){
-                compdist(data, formvalue);
-              }
-              else if (data.brandname === 'Keybank'){
-                compdist(data, formvalue);
-              }
-              else if (data.brandname === 'Johnsonville'){
-                compdist(data, formvalue);
-              } 
-            }, "json");
-
-            socket.emit('new user', $nickBox.val(), function(data){
-              if (data){
-                $('#nickWrap').hide();
-                $('#contentWrap').show();
-              } else{
-                $nickError.html("That username is already taken! Try again.");
-              }
-            });
-            $nickBox.val('');
-        });
-      
+        function brandDistrib(){
+          var formvalue = $nickBox.val();
+          $.get("/api/v1/current_state", function (data){
+            if (data.brandname === "Popeyes"){
+              console.log("Made it to the get request to snag info from DB!");
+              compdist(data, formvalue);
+            }
+            else if (data.brandname === 'Wellmark'){
+              compdist(data, formvalue);
+            }
+            else if (data.brandname === 'GeneralMills'){
+              compdist(data, formvalue);
+            }
+            else if (data.brandname === 'Keybank'){
+              compdist(data, formvalue);
+            }
+            else if (data.brandname === 'Johnsonville'){
+              compdist(data, formvalue);
+            } 
+          }, "json");
+        }
+        
         socket.on('stateupdate', function(data){
           console.log(data);
+          brandDistrib();
         });
 
+        $nickForm.submit(function(e){
+          e.preventDefault();
+          
+          brandDistrib(); 
+
+          socket.emit('new user', $nickBox.val(), function(data){
+            if (data){
+              $('#nickWrap').hide();
+              $('#contentWrap').show();
+            } else{
+              $nickError.html("That username is already taken! Try again.");
+            }
+          });
+          $nickBox.val('');
+        });
         
         socket.on('usernames', function(data){
           var html = ' ';

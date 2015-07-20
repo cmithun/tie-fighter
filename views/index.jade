@@ -2,6 +2,23 @@ doctype html
 html
 	head
 	body
+		style.
+			.buttonPush a {
+				display: block;
+				float: left;
+				height: 100px;
+				width: 200px;
+				margin-right: 10px;
+				background-color: #FFF;
+				text-align: center;
+				line-height: 100px;
+				text-decoration: none;
+			}
+
+			.buttonPush a.last {
+				margin-right: 0;
+			}
+
 		.buttonPush
 			a#PopeyesButton(href='#') Popeyes
 			a#WellmarkButton(href='#') Wellmark
@@ -29,28 +46,34 @@ html
 				}
 
 				$('#PopeyesButton').click(function(){
+					//$('body').css('background-color','green');
+					$('body').css({"background-image":"url(http://www.pashalaw.com/wp-content/uploads/2015/04/Firing-Pregnant-Armed-Robbery-Victim-a-Bad-Decision-for-Popeyes-Chicken.jpeg)"});
 					stateupdate("Popeyes");
 				});
 
 				$('#WellmarkButton').click(function(){
+					$('body').css({"background-image":"url(http://www.hoklife.com/wp-content/uploads/2011/08/Pri-WELLBCBS-C01.jpg)"});
 					stateupdate("Wellmark");
 				});
 
 				$('#KeybankButton').click(function(){
+					$('body').css({"background-image":"url(https://portlandfoodcartreviews.files.wordpress.com/2013/05/troutdale-key-bank.jpg)"});
 					stateupdate("Keybank");
 				});
 
 				$('#JohnsonvilleButton').click(function(){
+					$('body').css({"background-image":"url(http://2.bp.blogspot.com/_0aXC4y75Xe4/TC-KrxXZKcI/AAAAAAAACXI/BrgtDVxBXJ8/s1600/JVL00787.jpg)"});
 					stateupdate("Johnsonville");
 				});
 
 				$('#GeneralMillsButton').click(function(){
+					$('body').css({"background-image":"url(http://blog.generalmills.com/wp-content/uploads/Briefcase5.jpg)"});
 					stateupdate("GeneralMills");
 				});
 
 				$('.buttonPush').click(function(e){
 					console.log("Button was pushed!");
-					socket.emit('buttonPush', {'data': 'hello'});
+					socket.emit('buttonpush', {data: "hello"});
 				});
 			});
 			
