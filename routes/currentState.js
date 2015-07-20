@@ -7,10 +7,11 @@ var connectionString = process.env.DATABASE_URL || 'postgres://nodedev:nodedev@l
 module.exports = router;
 
 //--------------------------------------------Read State!!----------------------------------------//
-
+// There exists a way to do this in ONE query, this is homework
 router.get('/', function(req, res) {
 
     var results = [];
+    var results2 = [];
 
     // Get a Postgres client from the connection pool
     pg.connect(connectionString, function(err, client, done) {
@@ -23,10 +24,18 @@ router.get('/', function(req, res) {
             results.push(row);
         });
 
-        // After all data is returned, close connection and return results
+        // TODO: This is a hack, fix it
         query.on('end', function() {
-            client.end();
-            return res.json(results[0]);
+            var query2 = client.query("SELECT * FROM link_base WHERE brandname iLIKE ($1) LIMIT 1", [results[0].state]); 
+
+            query2.on('row', function(row) {
+                results2.push(row);
+            });
+
+            query2.on('end', function() {
+                client.end();
+                return res.json(results2[0])
+            });
         });
 
         // Handle Errors
@@ -36,4 +45,33 @@ router.get('/', function(req, res) {
 
     });
 
+});
+
+//--------------------------------------------Update State----------------------------------------//
+
+router.put('/',function(req, res) {
+    var data = {state: req.body.state};
+
+    console.log(data);
+
+    // Get a Postgres client from the connection pool
+    pg.connect(connectionString, function(err, client, done) {
+
+        // SQL Query > Update Data //Figure out how to put our variable state into our database entry state
+        client.query("UPDATE current_state SET state=($1) RETURNING *", [data.state], function(err, results) {
+            done();
+
+            if(err) {
+                console.log(err);
+            }
+            console.log(results);
+            console.log(results.rows[0]);
+
+            return res.json(results.rows[0]);
+        });
+
+        // After all data is returned, close connection and DO NOT return results
+        
+
+    });
 });

@@ -19,7 +19,7 @@ router.post('/', function(req, res) {
     pg.connect(connectionString, function(err, client, done) {
 
         // SQL Query > Insert Data
-        client.query("INSERT INTO link_base(link1, link2, link3, link4, link5) values($1, $2, $3, $4, $5)", [data.link1, data.link2, data.link3, data.link4, data.link5]); //$1 is first argument, $2 is second argument
+        client.query("INSERT INTO link_base(link1, link2, link3, link4, link5, brandname) values($1, $2, $3, $4, $5, $6)", [data.link1, data.link2, data.link3, data.link4, data.link5, data.brandname]); //$1 is first argument, $2 is second argument
 
         // SQL Query > Select Data
         var query = client.query("SELECT * FROM link_base ORDER BY id ASC");
@@ -93,7 +93,7 @@ router.put('/:link_base_id', function(req, res) {
     pg.connect(connectionString, function(err, client, done) {
 
         // SQL Query > Update Data
-        client.query("UPDATE link_base SET link1=($1), link2=($2), link3 = ($3), link4 = ($4), link5 = ($5) WHERE id=($6)", [data.link1, data.link2, data.link3, data.link4, data.link5, id]);
+        client.query("UPDATE link_base SET link1=($1), link2=($2), link3 = ($3), link4 = ($4), link5 = ($5) WHERE brandname iLIKE ($6)", [data.link1, data.link2, data.link3, data.link4, data.link5, brandname]);
 
         // SQL Query > Select Data
         var query = client.query("SELECT * FROM link_base ORDER BY id ASC");

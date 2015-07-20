@@ -3,107 +3,54 @@ html
 	head
 	body
 		.buttonPush
-			input.PopeyesButton(type='submit', value='')
-			// input.WellmarkButton(type='submit', value='')
-			// input.GeneralMillsButton(type='submit', value='')
-			// input.KeybankButton(type='submit', value='')
-			// input.JohnsonvilleButton(type='submit', value='')
+			a#PopeyesButton(href='#') Popeyes
+			a#WellmarkButton(href='#') Wellmark
+			a#GeneralMillsButton(href='#') General Mills
+			a#KeybankButton(href='#') Keybank
+			a#JohnsonvilleButton(href='#') Johnsonville
 
 		link(rel='stylesheet', type='text/css', href='/stylesheets/indexStyle.css')
 		script(src='/socket.io/socket.io.js')
 		script(src='http://code.jquery.com/jquery-latest.min.js')
 		script.
-			$(document).ready(function() {
-				$('#PopeyesButton').mouseenter(function(){
-					$('#PopeyesButton').fadeTo('fast',1);
-				});
-				$('#PopeyesButton').mouseleave(function(){
-					$('#PopeyesButton').fadeTo('fast',.7);
-				});
-
-				$('#WellmarkButton').mouseenter(function(){
-					$('#WellmarkButton').fadeTo('fast',1);
-				});
-				$('#WellmarkButton').mouseleave(function(){
-					$('#WellmarkButton').fadeTo('fast',.7);
-				});
-				$('#GeneralMillsButton').mouseenter(function(){
-					$('#GeneralMillsButton').fadeTo('fast',1);
-				});
-				$('#GeneralMillsButton').mouseleave(function(){
-					$('#GeneralMillsButton').fadeTo('fast',.5);
-				});
-				$('#KeybankButton').mouseenter(function(){
-					$('#KeybankButton').fadeTo('fast',1);
-				});
-				$('#KeybankButton').mouseleave(function(){
-					$('#KeybankButton').fadeTo('fast',.5);
-				});
-				$('#JohnsonvilleButton').mouseenter(function(){
-					$('#JohnsonvilleButton').fadeTo('fast',1);
-				});
-				$('#JohnsonvilleButton').mouseleave(function(){
-					$('#JohnsonvilleButton').fadeTo('fast',.5); //(".class")
-				});
-			});
-
-		script.
 			jQuery(function($){
 
-				var socket = io.connect();
-				var $buttonPush = $('.buttonPush');
-				var $PopeyesButton = $('#PopeyesButton'); //Figure out classes and identifiers!
-				var $WellmarkButton = $('#WellmarkButton');
-				var $KeybankButton = $('#KeybankButton');
-				var $JohnsonvilleButton = $('#KeybankButton');
-				var $GeneralMillsButton = $('#GeneralMillsButton'); //Define all of these
+				var socket = io.connect(); //SOCKET CONNECT
+				//var $buttonPush = ;
 
-				$buttonPush.submit(function(e){
-					e.preventDefault();
-					socket.emit('buttonPush', function(){
-						if $PopeyesButton.click(){
-							stateupdate("Popeyes");
-						}
-						else if $WellmarkButton.click(){
-							stateupdate("Wellmark");;
-						}
-						else if $KeybankButton.click(){
-							stateupdate("Keybank");
-						}
-						else if $Johnsonville.click(){
-							stateupdate("Johnsonville");;
-						}
-						else if $GeneralMillsButton.click(){
-							stateupdate("GenerallMills");
-						}
+				function stateupdate(state){
+					$.ajax({
+							type: 'PUT', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
+							dataType: 'json', // Set datatype - affects Accept header
+							url: "http://localhost:3000/api/v1/current_state", // A valid URL
+							headers: {"X-HTTP-Method-Override": "PUT"}, // X-HTTP-Method-Override set to PUT.
+							data: {"state": state} // Some data e.g. Valid JSON as a string
+					}).then(function(data) { console.log(data) });
+				}
+
+				$('#PopeyesButton').click(function(){
+					stateupdate("Popeyes");
 				});
 
-				//Come back and test!
-				function stateupdate(state) {
+				$('#WellmarkButton').click(function(){
+					stateupdate("Wellmark");
+				});
 
-					var data = {text: req.body.text, complete: req.body.complete};
+				$('#KeybankButton').click(function(){
+					stateupdate("Keybank");
+				});
 
-					// Get a Postgres client from the connection pool
-					pg.connect(connectionString, function(err, client, done) {
+				$('#JohnsonvilleButton').click(function(){
+					stateupdate("Johnsonville");
+				});
 
-						// SQL Query > Update Data //Figure out how to put our variable state into our database entry state
-						client.query("UPDATE current_state SET state = (" + state + ") WHERE id=($1)");
+				$('#GeneralMillsButton').click(function(){
+					stateupdate("GeneralMills");
+				});
 
-						// SQL Query > Select Data
-						var query = client.query("SELECT * FROM link_base ORDER BY id ASC");
-
-						// After all data is returned, close connection and DO NOT return results
-						query.on('end', function() {
-							client.end();
-						});
-
-						// Handle Errors
-						if(err) {
-							console.log(err);
-						}
-
-					});
+				$('.buttonPush').click(function(e){
+					console.log("Button was pushed!");
+					socket.emit('buttonPush', {'data': 'hello'});
 				});
 			});
-
 			

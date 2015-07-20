@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('Tie-Figher:server');
 var http = require('http');
 
+
+
 /**
  * Get port from environment and store in Express.
  */
@@ -36,6 +38,12 @@ io.sockets.on('connection', function(socket){
       updateNicknames();
     }
   });
+
+  socket.on('buttonPush', function(data){
+    console.log(data);
+    io.sockets.emit('stateupdate', {'data':'hello'});
+  });
+
   function updateNicknames(){
     io.sockets.emit('usernames', nicknames);
   }
@@ -49,8 +57,6 @@ io.sockets.on('connection', function(socket){
     updateNicknames();
   });
 });
-
-
 
 
 //-------------------------------------------------Pre-Made---------------------------------------------//

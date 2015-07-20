@@ -5,64 +5,21 @@ body {
 }
 
 div {
-    height:100px;
+    height:230px;
     width:100px;
     display: inline-block;
 }
 
-
-.PopeyesButton{
-    background:url(/images/PopeyesLogo.png) no-repeat;
-    cursor:pointer;
-    border:none;
-    padding: 50px;
-    width:250px;
-    height:250px;
-    border-radius: 300px;
+.buttonPush {
+    width: 1250px;
+    background: #ADD8E6;
+    overflow-y: auto;
 }
 
-.WellmarkButton{
-    background:url(/images/WellmarkLogo.png) no-repeat;
-    cursor:pointer;
-    border:none;
-    padding: 50px;
-    width:250px;
-    height:250px;
-    border-radius: 300px;
-}
-
-.JohnsonvilleButton{
-    background:url(/images/JohnsonvilleLogo.png) no-repeat;
-    cursor:pointer;
-    border:none;
-    padding: 50px;
-    width:250px;
-    height:250px;
-    border-radius: 300px;
-}
-
-.GeneralMillsButton{
-    background:url(/images/GeneralMillsLogo.png) no-repeat;
-    cursor:pointer;
-    border:none;
-    padding: 50px;
-    width:250px;
-    height:250px;
-    border-radius: 300px;
-}
-
-.KeybankButton{
-    background:url(/images/KeybankLogo.png) no-repeat;
-    cursor:pointer;
-    border:none;
-    padding: 50px;
-    width:250px;
-    height:250px;
-    border-radius: 300px;
-}
-#chat{
-    height:500px;
-}
-#contentWrap{
-    display:none;
+.buttonPush > input {
+    width: 200px;
+    height: 200px;
+    float: left;
+    background: white;   
+    margin: 15px;
 }
