@@ -21,13 +21,6 @@ html(lang='en')
         input#nickname(size='35')
         input(type='submit')
     
-    #contentWrap
-      #chatWrap
-        #chat
-        #siteloader
-          //- iframe#frame(width='1000', height='600', src='http://everythingtalks.com')
-      #users
-    
     script(src='http://code.jquery.com/jquery-latest.min.js')
     script(src='/socket.io/socket.io.js')
     script.
@@ -42,7 +35,6 @@ html(lang='en')
         var $messageBox = $('#message');
         var $chat = $('#chat');
         //var $frame = $('#frame');
-
 
         function linkadapter(url){
           $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
@@ -69,6 +61,10 @@ html(lang='en')
               newIframe.contentWindow.document.open('text/html', 'replace');
               newIframe.contentWindow.document.write(html);
               newIframe.contentWindow.document.close();
+
+              //change the height of the iframe
+              var height = document.getElementById('frame').contentWindow.document.body.scrollHeight;
+              document.getElementById('frame').height = height;
           });
         }
         function compdist(data, formvalue){
