@@ -30,35 +30,46 @@ html(lang='en')
         //var $frame = $('#frame');
 
         function linkadapter(url){
-          $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
-              var html = ""+data.contents;
+          // youtube regex
+          var ytrexp = /youtube/;
 
-              /* Replace relative links to absolute ones */
-              html = html.replace(new RegExp('(href|src)="/', 'g'),  '$1="'+url+'/');
+          if ($('#frame').length > 0) {
+            $('#frame').remove();
+          }
+          var newIframe = document.createElement('iframe');
+          newIframe.setAttribute('id', 'frame');
+          // Set attributes for iFrame (do whatever suits)
+          newIframe.width = '100%'; newIframe.height = '100%';
+          // This for the src makes it 'friendly'
+          newIframe.src = 'about:blank';
+          document.body.appendChild(newIframe); 
+          console.log(url);
+          if (ytrexp.exec(url) === null) {
+            $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
+                var html = ""+data.contents;
+                var height;
 
-              //$('#frame').contents().html(html);
-              if ($('#frame').length > 0) {
-                $('#frame').remove();
-              }
+                /* Replace relative links to absolute ones */
+                html = html.replace(new RegExp('(href|src)="/', 'g'),  '$1="'+url+'/');
 
-              var newIframe = document.createElement('iframe');
-              newIframe.setAttribute('id', 'frame');
-              // Set attributes for iFrame (do whatever suits)
-              newIframe.width = '100%'; newIframe.height = '100%';
-              // This for the src makes it 'friendly'
-              newIframe.src = 'about:blank'; 
+                //$('#frame').contents().html(html);
 
-              // Use whatever method is needed to insert the iframe where you want it 
-              document.body.appendChild(newIframe);
 
-              newIframe.contentWindow.document.open('text/html', 'replace');
-              newIframe.contentWindow.document.write(html);
-              newIframe.contentWindow.document.close();
+                // Use whatever method is needed to insert the iframe where you want it 
+                
 
-              //change the height of the iframe
-              var height = document.getElementById('frame').contentWindow.document.body.scrollHeight;
-              document.getElementById('frame').height = height;
-          });
+                newIframe.contentWindow.document.open('text/html', 'replace');
+                newIframe.contentWindow.document.write(html);
+                newIframe.contentWindow.document.close();
+                height = document.getElementById('frame').contentWindow.document.body.scrollHeight;
+                document.getElementById('frame').height = height;
+            });
+          } else {
+            $('#frame').attr('src', url);
+            $('#frame').setAttribute('allowfullscreen', true);
+          }
+
+          //change the height of the iframe
         }
         function compdist(data, formvalue){
           if (formvalue === "CPU1"){
@@ -78,7 +89,6 @@ html(lang='en')
           var formvalue = $('#nickname').val();
           $.get("/api/v1/current_state", function (data){
             if (data.brandname === "Popeyes"){
-              console.log("Made it to the get request to snag info from DB!");
               compdist(data, formvalue);
             }
             else if (data.brandname === 'Wellmark'){
@@ -97,7 +107,6 @@ html(lang='en')
         }
         
         socket.on('stateupdate', function(data){
-          console.log(data);
           brandDistrib();
         });
 
