@@ -27,13 +27,6 @@ html(lang='en')
       jQuery(function($){
         
         var socket = io.connect(); //CONNECT THE SOCKET
-        var $nickForm = $('#setNick');
-        var $nickError = $('#nickError');
-        var $nickBox = $('#nickname');
-        var $users = $('#users');
-        var $messageForm = $('#send-message');
-        var $messageBox = $('#message');
-        var $chat = $('#chat');
         //var $frame = $('#frame');
 
         function linkadapter(url){
@@ -82,7 +75,7 @@ html(lang='en')
           }
         }
         function brandDistrib(){
-          var formvalue = $nickBox.val();
+          var formvalue = $('#nickname').val();
           $.get("/api/v1/current_state", function (data){
             if (data.brandname === "Popeyes"){
               console.log("Made it to the get request to snag info from DB!");
@@ -108,20 +101,19 @@ html(lang='en')
           brandDistrib();
         });
 
-        $nickForm.submit(function(e){
+        $('#setNick').submit(function(e){
           e.preventDefault();
           
           brandDistrib(); 
 
-          socket.emit('new user', $nickBox.val(), function(data){
+          socket.emit('new user', $('#nickname').val(), function(data){
             if (data){
               $('#nickWrap').hide();
               $('#contentWrap').show();
             } else{
-              $nickError.html("That username is already taken! Try again.");
+              $('#nickError').html("That username is already taken! Try again.");
             }
           });
-          $nickBox.val('');
         });
         
         socket.on('usernames', function(data){
@@ -129,7 +121,7 @@ html(lang='en')
           for(i=0; i < data.length; i++){
               html += data[i] + '<br/>';
           }
-          $users.html(html);
+          $('#users').html(html);
         });
         
       });
