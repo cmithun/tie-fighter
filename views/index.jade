@@ -1,34 +1,24 @@
 doctype html
 html
 	head
-	body
-		style.
-			.buttonPush a {
-				display: block;
-				float: left;
-				height: 100px;
-				width: 200px;
-				margin-right: 10px;
-				background-color: #FFF;
-				text-align: center;
-				line-height: 100px;
-				text-decoration: none;
-			}
-
-			.buttonPush a.last {
-				margin-right: 0;
-			}
-
-		.buttonPush
-			a#PopeyesButton(href='#') Popeyes
-			a#WellmarkButton(href='#') Wellmark
-			a#GeneralMillsButton(href='#') General Mills
-			a#KeybankButton(href='#') Keybank
-			a#JohnsonvilleButton(href='#') Johnsonville
-
 		link(rel='stylesheet', type='text/css', href='/stylesheets/indexStyle.css')
 		script(src='/socket.io/socket.io.js')
 		script(src='http://code.jquery.com/jquery-latest.min.js')
+
+	body
+		.background-image
+
+		.container
+			.buttonPush
+				ul
+					li: a#PopeyesButton(href='#') Popeyes
+					li: a#WellmarkButton(href='#') Wellmark
+					li: a#GeneralMillsButton(href='#') General Mills
+					Li: a#KeybankButton(href='#') Keybank
+					li: a#JohnsonvilleButton(href='#') Johnsonville
+
+
+		
 		script.
 			jQuery(function($){
 
@@ -47,27 +37,33 @@ html
 
 				$('#PopeyesButton').click(function(){
 					//$('body').css('background-color','green');
-					$('body').css({"background-image":"url(http://www.pashalaw.com/wp-content/uploads/2015/04/Firing-Pregnant-Armed-Robbery-Victim-a-Bad-Decision-for-Popeyes-Chicken.jpeg)"});
+					$('.background-image').css({"background-image":"url(http://www.pashalaw.com/wp-content/uploads/2015/04/Firing-Pregnant-Armed-Robbery-Victim-a-Bad-Decision-for-Popeyes-Chicken.jpeg)"});
+					$('.container ul li').css("background-color","#FF9933");
 					stateupdate("Popeyes");
 				});
 
 				$('#WellmarkButton').click(function(){
-					$('body').css({"background-image":"url(http://www.hoklife.com/wp-content/uploads/2011/08/Pri-WELLBCBS-C01.jpg)"});
+					$('.background-image').css({"background-image":"url(http://www.hoklife.com/wp-content/uploads/2011/08/Pri-WELLBCBS-C01.jpg)"});
+					$('.container').css("background","rgba(255,255,255,.7)");
+					$('.container ul li').css("background-color","#0099FF");
 					stateupdate("Wellmark");
 				});
 
 				$('#KeybankButton').click(function(){
-					$('body').css({"background-image":"url(https://portlandfoodcartreviews.files.wordpress.com/2013/05/troutdale-key-bank.jpg)"});
+					$('.background-image').css({"background-image":"url(http://media.cleveland.com/science_impact/photo/key-tower-by-kuntzjpg-74bbfdc3a82d7cf3.jpg)"});
+					$('.container ul li').css("background-color","#8B0000");
 					stateupdate("Keybank");
 				});
 
 				$('#JohnsonvilleButton').click(function(){
-					$('body').css({"background-image":"url(http://2.bp.blogspot.com/_0aXC4y75Xe4/TC-KrxXZKcI/AAAAAAAACXI/BrgtDVxBXJ8/s1600/JVL00787.jpg)"});
+					$('.background-image').css({"background-image":"url(http://wausau.trigs.com/files/5513/2553/6518/five_pack_brats.JPG)"});
+					$('.container ul li').css("background-color","#8B0000");
 					stateupdate("Johnsonville");
 				});
 
 				$('#GeneralMillsButton').click(function(){
-					$('body').css({"background-image":"url(http://blog.generalmills.com/wp-content/uploads/Briefcase5.jpg)"});
+					$('.background-image').css({"background-image":"url(http://blog.generalmills.com/wp-content/uploads/Briefcase5.jpg)"});
+					$('.container ul li').css("background-color","#003366");
 					stateupdate("GeneralMills");
 				});
 

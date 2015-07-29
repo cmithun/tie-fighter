@@ -13,6 +13,10 @@ html(lang='en')
         float: left;
         border: 1px #000 solid;
       }
+      body, html{
+        height:100%;
+        width:100%;
+      }
   body
     #nickWrap
       p Enter a Username:
@@ -27,46 +31,50 @@ html(lang='en')
       jQuery(function($){
         
         var socket = io.connect(); //CONNECT THE SOCKET
-        //var $frame = $('#frame');
 
         function linkadapter(url){
           // youtube regex
+
           var ytrexp = /youtube/;
 
           if ($('#frame').length > 0) {
             $('#frame').remove();
           }
+          
           var newIframe = document.createElement('iframe');
           newIframe.setAttribute('id', 'frame');
           // Set attributes for iFrame (do whatever suits)
-          newIframe.width = '100%'; newIframe.height = '100%';
+          
           // This for the src makes it 'friendly'
           newIframe.src = 'about:blank';
           document.body.appendChild(newIframe); 
-          console.log(url);
+
           if (ytrexp.exec(url) === null) {
+
             $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
                 var html = ""+data.contents;
                 var height;
-
+                newIframe.width = '100%'; newIframe.height = '100%';
                 /* Replace relative links to absolute ones */
                 html = html.replace(new RegExp('(href|src)="/', 'g'),  '$1="'+url+'/');
 
                 //$('#frame').contents().html(html);
 
-
                 // Use whatever method is needed to insert the iframe where you want it 
                 
-
                 newIframe.contentWindow.document.open('text/html', 'replace');
                 newIframe.contentWindow.document.write(html);
                 newIframe.contentWindow.document.close();
                 height = document.getElementById('frame').contentWindow.document.body.scrollHeight;
                 document.getElementById('frame').height = height;
             });
+
           } else {
             $('#frame').attr('src', url);
-            $('#frame').setAttribute('allowfullscreen', true);
+            //$('#frame').mozRequestFullScreen();
+            $('#frame')[0].setAttribute('height', '100%');
+            $('#frame')[0].setAttribute('width', '80%');
+            $('#frame').attr('style', 'overflow:hidden;height:100%;width:100%;');
           }
 
           //change the height of the iframe
