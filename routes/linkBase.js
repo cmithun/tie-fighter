@@ -53,7 +53,7 @@ router.get('/', function(req, res) {
     pg.connect(connectionString, function(err, client, done) {
 
         // SQL Query > Select Data
-        var query = client.query("SELECT * FROM link_base ORDER BY id ASC;");
+       2
 
         // Stream results back one row at a time
         query.on('row', function(row) {
