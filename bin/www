@@ -34,10 +34,8 @@ app.set('port', port);
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-io.configure(function () { 
-  io.set("transports", ["xhr-polling"]); 
-  io.set("polling duration", 20); 
-});
+io.set("transports", ["xhr-polling"]); 
+io.set("polling duration", 20); 
 var nicknames = [];
 
 io.sockets.on('connection', function(socket){
