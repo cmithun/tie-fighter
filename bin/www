@@ -12,17 +12,6 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-
-
-// app.listen(port, function () {
-  // var addr = app.address();
-  // console.log('   app listening on http://' + addr.address + ':' + addr.port);
-// });
-
-/**
- * Socket.IO server (single process only)
- */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -32,10 +21,15 @@ app.set('port', port);
 
 //-----------------------------------------------My Content---------------------------------------------//
 
+
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-io.set("transports", ["xhr-polling"]); 
-io.set("polling duration", 20); 
+
+io.configure(function() {
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 20); 
+});
+
 var nicknames = [];
 
 io.sockets.on('connection', function(socket){
