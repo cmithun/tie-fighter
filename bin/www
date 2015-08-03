@@ -21,7 +21,7 @@ app.set('port', port);
 
 //-----------------------------------------------My Content---------------------------------------------//
 var options = {
-  transports: ["polling"]; 
+  transports: ["polling"]
 }
 
 var server = http.createServer(app);
