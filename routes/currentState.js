@@ -1,3 +1,6 @@
+//CRUD for the current "state" (i.e Popeyes, Keybank, Johnsonville, etc) of the program
+
+
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
@@ -7,7 +10,7 @@ var connectionString = process.env.DATABASE_URL || 'postgres://elximttdmryywf:Zc
 module.exports = router;
 
 //--------------------------------------------Read State!!----------------------------------------//
-// There exists a way to do this in ONE query, this is homework
+
 router.get('/', function(req, res) {
 
     var results = [];

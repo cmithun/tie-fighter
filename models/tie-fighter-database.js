@@ -3,5 +3,5 @@ var connectionString = process.env.DATABASE_URL || 'postgres://elximttdmryywf:Zc
 
 var client = new pg.Client(connectionString);
 client.connect();
-var query = client.query('CREATE DATABASE linkbase WITH OWNER elximttdmryywf');
+var query = client.query('CREATE DATABASE linkbase WITH OWNER elximttdmryywf'); //Create postgres database called linkbase with Heroku generated owner name
 query.on('end', function() { client.end(); });

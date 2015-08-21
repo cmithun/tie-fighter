@@ -21,18 +21,18 @@ app.set('port', port);
 
 //-----------------------------------------------My Content---------------------------------------------//
 var options = {
-  transports: ["polling"]
+  transports: ["polling"] //setting this options allows the app to run with Heroku
 }
 
-var server = http.createServer(app);
-var io = require('socket.io').listen(server, options);
-var nicknames = [];
+var server = http.createServer(app); //Create a server
+var io = require('socket.io').listen(server, options); //Include socket.io and listen on the servers ports
+var nicknames = []; //Define nickname array to store computer names
 
-io.sockets.on('connection', function(socket){
-  socket.on('new user', function(data,callback){
-    if (nicknames.indexOf(data) != -1){
-      callback(false);
-    } else {
+io.sockets.on('connection', function(socket){ //Turns sockets io on, allows connections to be made
+  socket.on('new user', function(data,callback){ //
+    if (nicknames.indexOf(data) != -1){ //If the nickname is already in the array, return false (present message stating "username taken")
+      callback(false); 
+    } else { //If nickname not in array, return store the name and proceed with program
       callback(true);
       socket.nickname = data;
       nicknames.push(socket.nickname);
@@ -40,24 +40,21 @@ io.sockets.on('connection', function(socket){
     }
   });
 
-  socket.on('buttonpush', function(data){
-    console.log(data);
-    io.sockets.emit('stateupdate', {data: "hello from server"});
+  socket.on('buttonpush', function(data){ //When a button is pushed on the home screen, socket.on recieves a message from the client side and emits a "stateupdate".
+    // console.log(data); 
+    io.sockets.emit('stateupdate', {data: "hello from server"}); //"Hello from server" only for debugging purposes
   });
 
-  function updateNicknames(){
-    io.sockets.emit('usernames', nicknames);
+  function updateNicknames(){ 
+    io.sockets.emit('usernames', nicknames); 
   }
 
-  socket.on('disconnect', function(data){
+  socket.on('disconnect', function(data){ //when a user disconnects, their name is taken out of array.
     if(!socket.nickname) return;
     nicknames.splice(nicknames.indexOf(socket.nickname), 1);
     updateNicknames();
   });
 });
-
-// app.use(express.static(__dirname + "/"))
-
 
 
 // console.log("http server listening on %d", port)

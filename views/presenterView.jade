@@ -32,10 +32,9 @@ html(lang='en')
         
         var socket = io.connect(); //CONNECT THE SOCKET
 
-        function linkadapter(url){
-          // youtube regex
+        function linkadapter(url){ //Adapt the hyperlinks so they can be used in iFrames. Many of the URLs are protected from use in iFrames to prevent people from stealing traffic, so this is a workaround. 
 
-          var ytrexp = /youtube/;
+          var ytrexp = /youtube/; 
 
           if ($('#frame').length > 0) {
             $('#frame').remove();
@@ -80,7 +79,7 @@ html(lang='en')
           //change the height of the iframe
         }
         function compdist(data, formvalue){
-          if (formvalue === "CPU1"){
+          if (formvalue === "CPU1"){ //Assigns proper link to proper computer
             linkadapter(data.link1);
           }
           else if (formvalue === "CPU2"){
@@ -93,7 +92,7 @@ html(lang='en')
             linkadapter(data.link4);
           }
         }
-        function brandDistrib(){
+        function brandDistrib(){  //Checks the state (Popeyes, Wellmark, etc) and distributes proper links
           var formvalue = $('#nickname').val();
           $.get("/api/v1/current_state", function (data){
             if (data.brandname === "Popeyes"){
